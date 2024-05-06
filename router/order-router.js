@@ -85,6 +85,7 @@ router.delete('/:id', async (req, res) => {
 router.get('/', async (req, res) => {
     try {
         const {filter, range, sort} = req.query;
+
         const result = await orderController.fetchOrder({filter, range, sort});
         const orderArray = await result.toArray() || [];
         return res.status(200).send({ success: true, data: orderArray });
