@@ -19,13 +19,24 @@ function orderController (db) {
                 return await orderDB.insertOne(data);
             },
             async fetchOrder ({filter, range, sort}) {
-                console.log('fetch all');
                 const orderDB = db.collection('order');
                 const f = JSON.parse(filter);
                 if (f?.stage) {
-                    return await orderDB.find(f);
+                    return await orderDB.find(f)
+                        .sort({published_date: -1})
+                        .project({
+                            additional: 0,
+                            roomInfo: 0,
+                        })
+                        .limit(50);
                 }
-                return await orderDB.find({}).sort({published_date: -1}).limit(50);
+                return await orderDB.find({})
+                    .sort({published_date: -1})
+                    .project({
+                        additional: 0,
+                        roomInfo: 0,
+                    })
+                    .limit(50);
             },
             updateOne: async (id, data) => {
                 return await orderDB.updateOne({id}, {
