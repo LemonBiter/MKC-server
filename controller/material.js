@@ -7,11 +7,10 @@ function materialController (db) {
     );
     return {
         create: async (data) => {
-            data.fileExist = !!data?.base64;
             return await materialDB.insertOne(data);
         },
         fetch: async () => {
-            return await materialDB.find({}).project({ base64: 0 });
+            return await materialDB.find({});
         },
         getListWithoutFile: async () => {
             return await materialDB.find({}).project({ _id: 0, id: 1, detail: 1,  position: 1, count: 1 });

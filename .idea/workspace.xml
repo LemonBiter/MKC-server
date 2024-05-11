@@ -5,9 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a190b178-b585-4056-8a09-f6dd2fedaedf" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/const.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/controller/image.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/controller/storage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/router/image-router.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/router/storage-router.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env.development" beforeDir="false" afterPath="$PROJECT_DIR$/.env.development" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/material.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/material.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/message.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/message.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/order.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/order.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mongodb/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/mongodb/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/material-router.js" beforeDir="false" afterPath="$PROJECT_DIR$/router/material-router.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/message-router.js" beforeDir="false" afterPath="$PROJECT_DIR$/router/message-router.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,26 +45,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/zhujunhong/work/mkc/MKC-server/controller&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Applications/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/zhujunhong/work/mkc/MKC-server/router",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "/Applications/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/controller" />
       <recent name="$PROJECT_DIR$/router" />
+      <recent name="$PROJECT_DIR$/controller" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
@@ -65,7 +79,7 @@
       <workItem from="1712793255934" duration="4093000" />
       <workItem from="1712807969770" duration="623000" />
       <workItem from="1712808758736" duration="96730000" />
-      <workItem from="1714888271327" duration="35740000" />
+      <workItem from="1714888271327" duration="76081000" />
     </task>
     <servers />
   </component>

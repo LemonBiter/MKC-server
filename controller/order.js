@@ -1,4 +1,4 @@
-import connectDB from "../mongodb/index.js";
+
 import generateShortId from "ssid";
 
 function orderController (db) {
@@ -19,12 +19,12 @@ function orderController (db) {
                 return await orderDB.insertOne(data);
             },
             async fetchOrder ({filter, range, sort}) {
-                const orderDB = db.collection('order');
                 const f = JSON.parse(filter);
                 if (f?.stage) {
                     return await orderDB.find(f)
                         .sort({published_date: -1})
                         .project({
+                            _id: 0,
                             additional: 0,
                             roomInfo: 0,
                         })
@@ -33,6 +33,7 @@ function orderController (db) {
                 return await orderDB.find({})
                     .sort({published_date: -1})
                     .project({
+                        _id: 0,
                         additional: 0,
                         roomInfo: 0,
                     })
@@ -98,7 +99,7 @@ function orderController (db) {
             return await orderDB.deleteOne({id});
         },
             findOne: async (id) => {
-                return await orderDB.findOne({id});
+                return await orderDB.findOne({id}, { projection: {_id: 0}});
             }
     }
 }

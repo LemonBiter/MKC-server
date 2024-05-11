@@ -102,7 +102,8 @@ export default function(materialControl) {
             const updatedArray = materialArray.map((material, index) => {
                 material.index = index + 1
                 return material;
-            }).reverse();
+            });
+                // .reverse();
             return res.status(200).send({success: true, data: updatedArray});
         } catch (e) {
             return res.status(200).send({success: false, message: e.message, data: []});
