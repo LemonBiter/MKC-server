@@ -3,6 +3,8 @@ import generateShortId from "ssid";
 
 function orderController (db) {
     const orderDB = db.collection('order');
+    const imageDB = db.collection('image');
+
     orderDB.createIndex(
         { "published_date": 1 },
         { expireAfterSeconds: 7776000 }  // 3个月后文档过期
@@ -87,10 +89,17 @@ function orderController (db) {
 
         },
             deleteNote: async (id, noteId) => {
+            let needDeleteFileId = '';
             const selected = await orderDB.findOne({id});
             const newNoteList = selected.additional.filter((note) => {
+                if (note.noteId === noteId) {
+                    needDeleteFileId = note.value;
+                }
                 return note.noteId !== noteId;
             });
+            if (needDeleteFileId) {
+                await imageDB.deleteOne({ fileId: needDeleteFileId });
+            }
             return await orderDB.updateOne({ id }, {
                 $set: { additional: newNoteList }
             });
