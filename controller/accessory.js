@@ -2,6 +2,7 @@ import connectDB from "../mongodb/index.js";
 
 function accessoryController (db) {
     const accessoryDB = db.collection('accessory');
+    const imageDB = db.collection('image');
     accessoryDB.createIndex(
         {"id": 1},
     );
@@ -40,6 +41,10 @@ function accessoryController (db) {
         },
         deleteOne: async (id) => {
             try {
+                const m = await accessoryDB.findOne({id});
+                if (m?.fileId) {
+                    await imageDB.deleteOne({ fileId: m?.fileId });
+                }
                 return await accessoryDB.deleteOne({ id });
             } catch (e) {
                 console.log(e);

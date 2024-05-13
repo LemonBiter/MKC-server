@@ -1,5 +1,5 @@
 import connectDB from "../mongodb/index.js";
-function storageController (db, WebSocket) {
+function storageController (db, io) {
     const storageDB = db.collection('storage');
     const messageDB = db.collection('message');
     storageDB.createIndex(
@@ -14,9 +14,7 @@ function storageController (db, WebSocket) {
             const result = await messageDB.insertOne(data);
             const unconfirmed = await messageDB.find({ confirm: false });
             const count = (await unconfirmed?.toArray() || []).length;
-            WebSocket.clients.forEach(function each(client) {
-                client.send(JSON.stringify({ count }));
-            })
+            io.emit('updateMessage', JSON.stringify({ count }));
             return result;
         },
         fetch: async () => {

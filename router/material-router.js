@@ -25,6 +25,26 @@ export default function(materialControl) {
             return res.status(200).send({success: false, message: e.message, data: []});
         }
     });
+    router.get('/', async (req, res) => {
+        try {
+            const {filter, range, sort} = req?.query;
+            const {q} = JSON.parse(filter);
+            const result = await materialControl.fetch();
+            let materialArray = (await result.toArray()) || []
+            if (q) {
+                materialArray = materialArray.filter((each) => each.detail.includes(q));
+            }
+            const updatedArray = materialArray.map((material, index) => {
+                material.index = index + 1
+                return material;
+            });
+            // .reverse();
+            return res.status(200).send({success: true, data: updatedArray});
+        } catch (e) {
+            return res.status(200).send({success: false, message: e.message, data: []});
+        }
+    });
+
     router.get('/:id', async (req, res) => {
         try {
             const id = req.params.id;
@@ -88,25 +108,6 @@ export default function(materialControl) {
             }
         } catch (e) {
             return res.status(200).send({success: false, message: e.message});
-        }
-    });
-    router.get('/', async (req, res) => {
-        try {
-            const {filter, range, sort} = req?.query;
-            const {q} = JSON.parse(filter);
-            const result = await materialControl.fetch();
-            let materialArray = (await result.toArray()) || []
-            if (q) {
-                materialArray = materialArray.filter((each) => each.detail.includes(q));
-            }
-            const updatedArray = materialArray.map((material, index) => {
-                material.index = index + 1
-                return material;
-            });
-                // .reverse();
-            return res.status(200).send({success: true, data: updatedArray});
-        } catch (e) {
-            return res.status(200).send({success: false, message: e.message, data: []});
         }
     });
     return router;

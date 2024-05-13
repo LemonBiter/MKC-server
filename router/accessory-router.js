@@ -67,7 +67,7 @@ export default function(accessoryControl) {
             if (result?.acknowledged) {
                 return res.status(200).send({success: true, data: result});
             } else {
-                return res.status(200).send({success: false, message: 'create failed!'});
+                return res.status(200).send({success: false, message: 'delete failed!'});
             }
         } catch (e) {
             return res.status(200).send({success: false, message: e.message});

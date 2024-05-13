@@ -2,6 +2,7 @@ import connectDB from "../mongodb/index.js";
 
 function materialController (db) {
     const materialDB = db.collection('material');
+    const imageDB = db.collection('image');
     materialDB.createIndex(
         { "id": 1 },
     );
@@ -38,6 +39,10 @@ function materialController (db) {
         },
         deleteOne: async (id) => {
             try {
+                const m = await materialDB.findOne({id});
+                if (m?.fileId) {
+                    await imageDB.deleteOne({ fileId: m?.fileId });
+                }
                 return await materialDB.deleteOne({ id });
             } catch (e) {
                 console.log(e);

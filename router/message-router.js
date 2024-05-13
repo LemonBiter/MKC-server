@@ -52,7 +52,7 @@ export default function (messageControl) {
     router.get('/', async (req, res) => {
         try {
             const result = await messageControl.fetch();
-            const messageArray = ((await result.toArray()).reverse()) || []
+            const messageArray = (await result.toArray()) || [];
             return res.status(200).send({success: true, data: messageArray});
         } catch (e) {
             return res.status(200).send({success: false, message: e.message, data: []});

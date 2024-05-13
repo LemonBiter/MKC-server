@@ -42,7 +42,7 @@ function orderController (db) {
             updateOne: async (id, data) => {
                 return await orderDB.updateOne({id}, {
                     $set: {
-                        additional: data?.additional || '',
+                        // additional: data?.additional || '',
                         address: data?.address || '',
                         email: data?.email || '',
                         name: data?.name || '',
@@ -70,7 +70,7 @@ function orderController (db) {
             let noteArray = [];
             let newNoteObj;
             if (orderData?.type === 'img') {
-                newNoteObj  = { noteId, type: orderData?.type, value: orderData?.base64, noteTime: new Date() };
+                newNoteObj  = { noteId, type: orderData?.type, value: orderData?.fileId, noteTime: new Date() };
             } else {
                 newNoteObj = { noteId, type: orderData?.type, value: orderData?.newNote, noteTime: new Date() };
             }

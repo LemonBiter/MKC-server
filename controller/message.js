@@ -1,5 +1,5 @@
 import connectDB from "../mongodb/index.js";
-function messageController (db, wss) {
+function messageController (db, io) {
     const messageDB = db.collection('message');
     messageDB.createIndex(
         { "published_date": 1 },
@@ -13,24 +13,15 @@ function messageController (db, wss) {
             const result = await messageDB.insertOne(data);
             const unconfirmed = await messageDB.find({ confirm: false });
             const count = (await unconfirmed?.toArray() || []).length;
-            console.log('count', count);
-            console.log('连接数量：', wss.clients.size)
-            wss.clients.forEach(function each(client) {
-                // if (client.readyState === WebSocket.OPEN) {
-                client.send(JSON.stringify({ count: JSON.stringify(count) }));
-                // }
-            });
-            // wss.clients.forEach(function each(client) {
-            //     client.send(JSON.stringify({ count }));
-            // })
-
+            io.emit('updateMessage', JSON.stringify({ count }));
             return result;
         },
         fetch: async (id) => {
             if (id) {
                 return await messageDB.findOne({id});
             } else {
-                return await messageDB.find({}).sort({ confirm: -1, published_date: 1 }).limit(100).project({base64: 0});
+                // io.emit('updateMessage', JSON.stringify({ count }));
+                return await messageDB.find({}).sort({ confirm: 1, published_date: -1 }).limit(50).project({base64: 0});
             }
 
         },
@@ -45,12 +36,7 @@ function messageController (db, wss) {
             );
             const unconfirmed = await messageDB.find({ confirm: false });
             const count = (await unconfirmed?.toArray() || []).length;
-
-            wss.clients.forEach(function each(client) {
-                // if (client.readyState === WebSocket.OPEN) {
-                    client.send(JSON.stringify({ count: JSON.stringify(count) }));
-                // }
-            });
+            io.emit('updateMessage', JSON.stringify({ count }));
             return result;
         },
     }
