@@ -19,13 +19,29 @@ export default function (messageControl) {
     router.put('/:id', async (req, res) => {
         try {
             const data = req?.body;
+            console.log('data', data);
             const result = await messageControl.update(data);
             if (result?.acknowledged) {
                 return res.status(200).send({success: true, data: result});
             } else {
-                return res.status(200).send({success: false, message: 'create failed!'});
+                return res.status(200).send({success: false, message: 'update failed!'});
             }
 
+        } catch (e) {
+            return res.status(200).send({success: false, message: e.message});
+        }
+    });
+
+    router.delete('/', async (req, res) => {
+        try {
+            const filter = req.query?.filter;
+            const { id: idArr } = JSON.parse(filter);
+            const result = await messageControl.delete(idArr);
+            if (result?.acknowledged) {
+                return res.status(200).send({success: true, data: result});
+            } else {
+                return res.status(200).send({success: false, message: 'delete failed!'});
+            }
         } catch (e) {
             return res.status(200).send({success: false, message: e.message});
         }

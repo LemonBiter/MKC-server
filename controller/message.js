@@ -1,6 +1,7 @@
 import connectDB from "../mongodb/index.js";
 function messageController (db, io) {
     const messageDB = db.collection('message');
+    const imageDB = db.collection('image');
     messageDB.createIndex(
         { "published_date": 1 },
         // { expireAfterSeconds: 10 }
@@ -14,6 +15,7 @@ function messageController (db, io) {
             const unconfirmed = await messageDB.find({ confirm: false });
             const count = (await unconfirmed?.toArray() || []).length;
             io.emit('updateMessage', JSON.stringify({ count }));
+            console.log('触发了');
             return result;
         },
         fetch: async (id) => {
@@ -28,16 +30,26 @@ function messageController (db, io) {
         fetchUnconfirmedMessage: async () => {
             return await messageDB.find({ confirm: false });
         },
-        update: async ({ id, confirm }) => {
+        update: async ({ id, confirm, confirmedBy }) => {
+
             const result = await messageDB.updateOne({id}, {
                 $set: {
-                    confirm
+                    confirm,
+                    confirmedBy
                 }}
             );
             const unconfirmed = await messageDB.find({ confirm: false });
             const count = (await unconfirmed?.toArray() || []).length;
             io.emit('updateMessage', JSON.stringify({ count }));
             return result;
+        },
+        delete: async (idArr) => {
+            const messageDelete = await messageDB.deleteMany({ id: { $in: idArr} });
+            const relatedImgDelete = await imageDB.deleteMany({ belongTo: { $in: idArr }});
+            const unconfirmed = await messageDB.find({ confirm: false });
+            const count = (await unconfirmed?.toArray() || []).length;
+            io.emit('updateMessage', JSON.stringify({ count }));
+            return messageDelete;
         },
     }
 }

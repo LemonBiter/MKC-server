@@ -11,6 +11,7 @@ export default function (imageController) {
                 fileId: req.body.fileId,
                 contentType: req.file.mimetype,
                 from: req.body.from || 'unknown',
+                belongTo: req.body.belongTo,
                 image: new Binary(req.file.buffer)
             };
             const result = await imageController.create(imageDoc);
