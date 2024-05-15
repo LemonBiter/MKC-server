@@ -18,6 +18,8 @@ import imageControl from './controller/image.js'
 import storageRouter from "./router/storage-router.js";
 import storageControl from './controller/storage.js'
 import imageRouter from "./router/image-router.js";
+import eventControl from './controller/event.js'
+import eventRouter from "./router/event-router.js";
 import {Server} from "socket.io";
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -29,29 +31,22 @@ if (process.env.NODE_ENV === 'development') {
 } else if (process.env.NODE_ENV === 'production') {
    dotenv.config({ path: '.env.production' });
 }
-
 const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(bodyParser.json({ limit: '50mb' }));
-
-
-
 const io = new Server(8080, {
    cors: {
       origin: ['http://localhost:5173', "http://13.237.249.81"]
    }
 });
-
 io.on('connection', (socket) => {
    console.log('socket connected');
 })
-
-
-
-
 const db = await getConnectDB();
+
 app.use('/order', orderRouter(orderControl(db)));
+app.use('/event', eventRouter(eventControl(db, io)));
 app.use('/message', messageRouter(messageControl(db, io)));
 app.use('/material', materialRouter(materialControl(db)));
 app.use('/accessory', accessoryRouter(accessoryControl(db)));
@@ -65,9 +60,18 @@ app.use('/', router);
 // app.get('*', (req, res) => {
 //    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 // });
-
-app.listen(3000, () => {
+const server = app.listen(3000, () => {
    console.log('3000 running');
 })
+process.on('uncaughtException', (err) => {
+   console.error('Unhandled exception', err);
+   server.close(() => {
+      process.exit(1);
+   });
+});
 
+// 正常退出
+process.on('exit', (code) => {
+   console.log(`exit: ${code}`);
+});
 export default app;

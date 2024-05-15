@@ -7,7 +7,7 @@ export default async function getConnectDB() {
         console.log('Connected to MongoDB');
         return client.db('MKC_DB');
     } catch (error) {
-        console.error('Error connecting to MongoDB:', error);
+        console.error(error,' < Error connecting to MongoDB');
         throw error;
     }
 }
