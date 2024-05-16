@@ -15,7 +15,6 @@ function messageController (db, io) {
             const unconfirmed = await messageDB.find({ confirm: false });
             const count = (await unconfirmed?.toArray() || []).length;
             io.emit('updateMessage', JSON.stringify({ count }));
-            console.log('触发了');
             return result;
         },
         fetch: async (id) => {
@@ -25,6 +24,13 @@ function messageController (db, io) {
                 // io.emit('updateMessage', JSON.stringify({ count }));
                 return await messageDB.find({}).sort({ confirm: 1, published_date: -1 }).limit(50).project({base64: 0});
             }
+
+        },
+
+        fetchByFilter: async (detail) => {
+                return await messageDB.find({
+                    detail: { $regex: new RegExp(`${detail}`, 'i') }
+                }).sort({ confirm: 1, published_date: -1 });
 
         },
         fetchUnconfirmedMessage: async () => {

@@ -17,11 +17,37 @@ function orderController (db) {
                 if (data?.additional) {
                     data.additional = [{ noteId, value: data.additional, noteTime: new Date() }];
                 }
+                if (data?.roomInfo) {
+                    Object.defineProperty(data, 'roomInfoStr', {
+                        value: JSON.stringify(data?.roomInfo),
+                        enumerable: true
+                    });
+                }
                 data.published_date = new Date();
                 return await orderDB.insertOne(data);
             },
             async fetchOrder ({filter, range, sort}) {
                 const f = JSON.parse(filter);
+                if (f?.q) {
+                    const name = f?.q;
+                    return await orderDB.find({
+                        name: { $regex: new RegExp(`${name}`, 'i')}
+                    }).sort({published_date: -1})
+                        .project({
+                            _id: 0,
+                            additional: 0,
+                        });
+                }
+                if (f?.order_item) {
+                    const keyword = f?.order_item;
+                    return await orderDB.find({
+                        roomInfoStr: { $regex: new RegExp(`${keyword}`, 'i') }
+                    }).sort({published_date: -1})
+                        .project({
+                            _id: 0,
+                            additional: 0,
+                        });
+                }
                 if (f?.stage) {
                     return await orderDB.find(f)
                         .sort({published_date: -1})
@@ -42,6 +68,12 @@ function orderController (db) {
                     .limit(50);
             },
             updateOne: async (id, data) => {
+                if (data?.roomInfo) {
+                    Object.defineProperty(data, 'roomInfoStr', {
+                        value: JSON.stringify(data?.roomInfo),
+                        enumerable: true
+                    });
+                }
                 return await orderDB.updateOne({id}, {
                     $set: {
                         // additional: data?.additional || '',
@@ -50,6 +82,7 @@ function orderController (db) {
                         name: data?.name || '',
                         phone: data?.phone || '',
                         roomInfo: data?.roomInfo || {},
+                        roomInfoStr: data?.roomInfoStr | '',
                         stage: data?.stage || 'ordered'
                     }
                 }, {
@@ -105,6 +138,14 @@ function orderController (db) {
             });
         },
             deleteOrder: async (id) => {
+                const current = await orderDB.findOne({id});
+                if (current?.additional?.length) {
+                    current.additional.forEach(async ({ type, value }) => {
+                        if (type === 'img') {
+                            await imageDB.deleteOne({ fileId: value });
+                        }
+                    })
+                }
             return await orderDB.deleteOne({id});
         },
             findOne: async (id) => {

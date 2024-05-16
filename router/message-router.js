@@ -67,9 +67,21 @@ export default function (messageControl) {
     });
     router.get('/', async (req, res) => {
         try {
-            const result = await messageControl.fetch();
-            const messageArray = (await result.toArray()) || [];
-            return res.status(200).send({success: true, data: messageArray});
+            const filter = req.query?.filter;
+            if (filter !== '{}') {
+                const filterObj = JSON.parse(filter);
+                const detail = filterObj?.detail;
+                if (detail) {
+                    const result = await messageControl.fetchByFilter(detail);
+                    const messageArray = (await result.toArray()) || [];
+                    return res.status(200).send({success: true, data: messageArray});
+                }
+            } else {
+                const result = await messageControl.fetch();
+                const messageArray = (await result.toArray()) || [];
+                return res.status(200).send({success: true, data: messageArray});
+            }
+
         } catch (e) {
             return res.status(200).send({success: false, message: e.message, data: []});
         }

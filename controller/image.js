@@ -18,6 +18,9 @@ function imageController (db) {
             data.published_date = new Date();
             return await imageDB.replaceOne({fileId}, data);
         },
+        delete: async (fileId) => {
+            return await imageDB.deleteOne({fileId});
+        },
         // fetchUnconfirmedMessage: async () => {
         //     return await imageDB.find({ confirm: false });
         // },

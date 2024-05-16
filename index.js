@@ -20,6 +20,8 @@ import storageControl from './controller/storage.js'
 import imageRouter from "./router/image-router.js";
 import eventControl from './controller/event.js'
 import eventRouter from "./router/event-router.js";
+import employeeControl from './controller/employee.js'
+import employeeRouter from "./router/employee-router.js";
 import {Server} from "socket.io";
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -51,7 +53,9 @@ app.use('/message', messageRouter(messageControl(db, io)));
 app.use('/material', materialRouter(materialControl(db)));
 app.use('/accessory', accessoryRouter(accessoryControl(db)));
 app.use('/image', imageRouter(imageControl(db)));
+app.use('/employee', employeeRouter(employeeControl(db)));
 app.use('/storage', storageRouter(storageControl(db, io)));
+
 app.use('/', router);
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = path.dirname(__filename);
